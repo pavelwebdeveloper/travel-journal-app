@@ -1,7 +1,7 @@
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Button, Text, TextInput, View } from "react-native";
+import { Button, FlatList, Image, Text, TextInput, View } from "react-native";
 import { addNote } from "../database/db";
 
 type FormData = {
@@ -49,6 +49,22 @@ export default function addNoteScreen() {
 
   return (
     <View>
+        <View>
+            <Button title="Add 1 or more photos" onPress={pickPhoto}></Button>
+            {photos.length > 0 && (
+                <FlatList
+                    data={photos}
+                    keyExtractor={(item) => item}
+                    renderItem={({item}) => (
+                        <Image
+                            source={{ uri: item }}
+                            style={{ width:100, height:100 }}
+                        />
+                    )}
+
+                />
+            )}
+        </View>
         <Text>Add Note Title</Text>
         <Controller
             control={control}

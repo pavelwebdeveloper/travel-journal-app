@@ -34,6 +34,7 @@ I found these websites useful in developing this software:
 * [Expo SQLite](https://docs.expo.dev/versions/latest/sdk/sqlite/)
 * [Moving between screens](https://expo.github.io/router/docs/migration/react-navigation/navigating/)
 * [React Hook Form](https://react-hook-form.com/get-started)
+* [Expo ImagePicker](https://docs.expo.dev/versions/latest/sdk/imagepicker/)
 * [w3schools](https://www.w3schools.com/kotlin/index.php)
 * [Create your first Android App](https://developer.android.com/codelabs/basic-android-kotlin-compose-first-app#1)
 * [Android Basics with Compose](https://developer.android.com/courses/android-basics-compose/course)
