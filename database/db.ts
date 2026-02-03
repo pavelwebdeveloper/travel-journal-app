@@ -14,7 +14,7 @@ export type Note = {
 export type Photo = {
     photId: number;
     note_Id: number;
-    photo: string;
+    photoPath: string;
 }
 
 async function getDB(): Promise<SQLite.SQLiteDatabase>{

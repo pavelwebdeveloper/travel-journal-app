@@ -1,4 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Button, FlatList, Image, Text, TextInput, View } from "react-native";
@@ -10,6 +11,9 @@ type FormData = {
 }
 
 export default function addNoteScreen() {
+
+    const router = useRouter();
+
     const {
         control,
         handleSubmit,
@@ -35,12 +39,14 @@ export default function addNoteScreen() {
         if (!result.canceled){
             const photos = result.assets.map(asset => asset.uri);
             setPhotos(prev => [...prev, ...photos]);
+            console.log(photos);
         }
     }
 
     const onSubmit = async (data: FormData) => {
         try {
             await addNote(data.noteTitle, data.noteContent, photos);
+            router.push('/App')
         } catch(error){
             console.error("Failed to save note:", error);
         };

@@ -32,7 +32,7 @@ const App = () => {
         height:width * 0.5
       }}
       ></Image>
-      <Text>Lets us see the list !!!</Text>
+      <Text>The notes !!!</Text>
       <FlatList 
         data={notes}
         keyExtractor={(note) => note.noteId.toString()}
