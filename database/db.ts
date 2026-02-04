@@ -77,6 +77,32 @@ export const getAllNotes = async(): Promise<Note[]> => {
     );
 };
 
+// Get a note by the use of its id
+export const getNote = async(
+    noteId: number
+): Promise<Note | null> => {
+    const db = await getDB();
+    
+    return await db.getFirstAsync<Note>(
+        'SELECT * FROM notes WHERE noteId = ?;',
+        [noteId]
+    );
+};
+
+// Get a note by the use of its id
+export const deleteNote = async(
+    noteId: number
+): Promise<boolean> => {
+    const db = await getDB();
+    
+    const resultOfDelete = await db.runAsync(
+        'DELETE FROM notes WHERE noteId = ?;',
+        [noteId]
+    );
+
+    return resultOfDelete.changes > 0;
+};
+
 // Get photos for a particular note
 export const getPhotosForNote = async(
     note_Id: number

@@ -60,6 +60,8 @@ export default function addNoteScreen() {
             {photos.length > 0 && (
                 <FlatList
                     data={photos}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
                     keyExtractor={(item) => item}
                     renderItem={({item}) => (
                         <Image

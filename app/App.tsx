@@ -1,8 +1,8 @@
-import { useFocusEffect, useNavigation, useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import React, { useCallback, useState } from "react";
 import { Button, Dimensions, FlatList, Image, Text, View } from "react-native";
 import { getAllNotes, initDB, Note as NoteType } from "../database/db";
-import Note from "./Note";
+import Note from "./NotePreview";
 
 const App = () => {
     const [notes, setNotes] = useState<NoteType[]>([]);
@@ -10,7 +10,7 @@ const App = () => {
     const { width } = Dimensions.get("window");
 
     const router = useRouter();
-    const navigation = useNavigation();
+    //const navigation = useNavigation();
 
     useFocusEffect(
       useCallback(() => {
@@ -35,6 +35,7 @@ const App = () => {
       <Text>The notes !!!</Text>
       <FlatList 
         data={notes}
+        style={{ height: 400 }}
         keyExtractor={(note) => note.noteId.toString()}
         renderItem={({item}) => <Note note={item}/>}
       />
