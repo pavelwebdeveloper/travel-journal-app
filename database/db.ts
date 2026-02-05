@@ -12,7 +12,7 @@ export type Note = {
 }
 
 export type Photo = {
-    photId: number;
+    photoId: number;
     note_Id: number;
     photoPath: string;
 }
@@ -68,6 +68,31 @@ export const addNote = async (
     }
 };
 
+export const updateNote = async (
+    noteId: number,
+    noteTitle: string,
+    noteContent: string,
+    photos: string[]
+): Promise<void> => {
+    const db = await getDB();
+
+    const result = await db.runAsync(
+        'UPDATE notes SET noteTitle = ?, noteContent = ? WHERE noteId = ?;',
+        [noteTitle, noteContent, noteId]
+    );
+
+    await deletePhotos(noteId);
+
+    //const noteId = result.lastInsertRowId as number;
+
+    for (const photo of photos) {
+            await db.runAsync(
+            'INSERT INTO photos (note_Id, photoPath) VALUES (?, ?);',
+            [noteId, photo]
+        );
+    }
+};
+
 // Get all notes from the database
 export const getAllNotes = async(): Promise<Note[]> => {
     const db = await getDB();
@@ -91,14 +116,20 @@ export const getNote = async(
 
 // Get a note by the use of its id
 export const deleteNote = async(
-    noteId: number
+    note: Note
 ): Promise<boolean> => {
     const db = await getDB();
-    
+
+    const noteId = note.noteId;
+
     const resultOfDelete = await db.runAsync(
         'DELETE FROM notes WHERE noteId = ?;',
         [noteId]
     );
+
+    const note_Id = noteId;
+
+    deletePhotos(note_Id);
 
     return resultOfDelete.changes > 0;
 };
@@ -114,3 +145,14 @@ export const getPhotosForNote = async(
         [note_Id]
     );
 };
+
+async function deletePhotos(note_Id: number) {
+    if(!note_Id) return;
+
+    const db = await getDB(); 
+
+    const resultOfDelete = await db.runAsync(
+        'DELETE FROM photos WHERE note_Id = ?;',
+        [note_Id]
+    );
+}

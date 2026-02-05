@@ -42,7 +42,7 @@ const App = () => {
       <View><Button
         title="Add a note"
         onPress={() =>
-          router.push('/addNoteScreen')
+          router.push('/addUpdateNote')
         }
       ></Button></View>
     </View>

@@ -10,7 +10,9 @@ type Props = {
 const NoteDetails = () => {
     const { noteId } = useLocalSearchParams<{noteId: string}>();
 
-    const [note, setNote] = useState<Note | null>(null);
+    //const [note, setNote] = useState<Note | null>(null);
+
+    const [note, setNote] = useState<Note>();
 
     const [photos, setPhotos] = useState<Photo[]>([]);
 
@@ -19,7 +21,10 @@ const NoteDetails = () => {
     useEffect(() => {
             (async () => {
                 const note = await getNote(Number(noteId)); // getting all notes from database
-                setNote(note); // set notes with notes returned from database
+                if(note != null){
+                    setNote(note); // set notes with notes returned from database
+                }
+                
             })();
         }, [noteId]);
 
@@ -32,8 +37,10 @@ const NoteDetails = () => {
 
     const deleteTheNote = async () => {
             try {
-                await deleteNote(Number(noteId));
-                router.push('/App')
+                if(note != null){
+                    await deleteNote(note);
+                    router.push('/App')
+                }  
             } catch(error){
                 console.error("Failed to delete note:", error);
             };
@@ -61,7 +68,21 @@ const NoteDetails = () => {
                                 />
                             )}
 
-                            <Button title="Delete the note" onPress={deleteTheNote}/>
+                            <Button
+                                title="Update the note"
+                                onPress={() =>
+                                      router.push({
+                                        pathname: '/addUpdateNote',
+                                        params: {
+                                            noteId: note?.noteId.toString()
+                                        }
+                                    })
+                                    }
+                                  ></Button>
+
+                            <Button 
+                                title="Delete the note" 
+                                onPress={deleteTheNote}/>
             </View>
     );
 }
